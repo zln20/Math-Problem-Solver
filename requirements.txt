@@ -1,0 +1,8 @@
+streamlit
+paddleocr
+paddlepaddle
+langchain
+langchain-openai
+Pillow
+numpy
+setuptools
