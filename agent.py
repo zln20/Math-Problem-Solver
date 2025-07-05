@@ -29,7 +29,7 @@ chain = prompt | llm
 def extract_text_from_image(image_bytes: bytes) -> str:
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
     image_np = np.array(image)
-    results = reader.ocr(image_np, cls=False)
+    results = reader.ocr(image_np)
     extracted_text = " ".join([line[1][0] for line in results]).strip()
     return extracted_text
 
