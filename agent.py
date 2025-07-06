@@ -3,6 +3,7 @@ from PIL import Image
 import numpy as np
 import io
 import os
+import streamlit as st
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
