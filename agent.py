@@ -10,9 +10,9 @@ from langchain_core.prompts import ChatPromptTemplate
 reader = easyocr.Reader(['en'])
 
 # Initialize OpenRouter model (DeepSeek R1 - FREE)
-openai_api_key = st.secrets["openai"]["api_key"]
+key = st.secrets["openai"]["api_key"]
 llm = ChatOpenAI(
-    openai_api_key=openai_api_key,
+    openai_api_key=key,
     openai_api_base="https://openrouter.ai/api/v1",
     model="deepseek/deepseek-r1:free",
     temperature=0
