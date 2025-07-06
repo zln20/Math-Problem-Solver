@@ -1,32 +1,34 @@
+import easyocr
 from PIL import Image
 import numpy as np
 import io
+import os
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
-import easyocr
-
-# Initialize EasyOCR reader
+# Initialize EasyOCR
 reader = easyocr.Reader(['en'])
 
-# Setup LLM using OpenRouter DeepSeek
+# Initialize OpenRouter model (DeepSeek R1 - FREE)
 llm = ChatOpenAI(
-    openai_api_key="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",
+    openai_api_key="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",
     openai_api_base="https://openrouter.ai/api/v1",
     model="deepseek/deepseek-r1:free",
     temperature=0
 )
 
+# Chat-style prompt template
 prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful assistant that solves math problems step-by-step."),
     ("human", "{question}")
 ])
 
+# Combine into LangChain pipeline
 chain = prompt | llm
 
 def extract_text_from_image(image_bytes: bytes) -> str:
     """
-    Extract text from an image using EasyOCR.
+    Extracts text from an image using EasyOCR.
     """
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
     image_np = np.array(image)
@@ -38,7 +40,7 @@ def extract_text_from_image(image_bytes: bytes) -> str:
 
 def solve_math_problem_from_image(image_bytes: bytes) -> str:
     """
-    Extract the math problem text from the image and solve it via LLM.
+    Extracts the math problem using OCR and uses an LLM to solve it.
     """
     extracted_text = extract_text_from_image(image_bytes)
 
@@ -47,3 +49,5 @@ def solve_math_problem_from_image(image_bytes: bytes) -> str:
 
     response = chain.invoke({"question": extracted_text})
     return response.content.strip()
+
+
