@@ -7,10 +7,8 @@ import streamlit as st
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
-# Initialize EasyOCR
 reader = easyocr.Reader(['en'])
 
-# Initialize OpenRouter model (DeepSeek R1 - FREE)
 key = st.secrets["openai"]["key"]
 llm = ChatOpenAI(
     openai_api_key=key,
@@ -19,13 +17,11 @@ llm = ChatOpenAI(
     temperature=0
 )
 
-# Chat-style prompt template
 prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful assistant that solves math problems step-by-step."),
     ("human", "{question}")
 ])
 
-# Combine into LangChain pipeline
 chain = prompt | llm
 
 def extract_text_from_image(image_bytes: bytes) -> str:
